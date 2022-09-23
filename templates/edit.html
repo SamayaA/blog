@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'assets/css/edit.css' %}">
+    <title>Edit Post</title>
+</head>
+
+<body>
+    <div>
+        <a href="{% url 'index' %}">View all posts</a>
+        <a href="{% url 'logout' %}">Log out</a>
+    </div>
+    <div class="post_edit">
+        <h1 style="text-align: center;">Edit Post</h1>
+        <form method="POST" action="{% url 'edit' post.id %}" enctype="multipart/form-data" class="form-style-7">
+            {% csrf_token %}
+            <ul>
+                <li>
+                    <input name="post_id" value="{{post.id}}" hidden class="hidden">
+                </li>
+                <li>
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        {% for category in categories %}
+                        {{category}}
+                        <option value="{{category.name}}">
+                            {{category.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <img src="{{post.image}}">
+                <li>
+                    <label for="image">Image</label>
+                    <input id="image" type="file" accept="image/*" name="image">
+                </li>
+                <li>
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" placeholder="Description" maxlength="300"
+                        required>{{post.short_description}}</textarea>
+                </li>
+                <li>
+                    <label for="short_description">Short description</label>
+                    <textarea id="short_description" name="short_description" placeholder="Short Description"
+                        maxlength="150" required>{{post.description}}</textarea>
+                </li>
+                <input type="submit" value="Edit Post" />
+            </ul>
+        </form>
+    </div>
+</body>
+
+</html>
